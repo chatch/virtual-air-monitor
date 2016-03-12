@@ -1,0 +1,23 @@
+{
+    "name": "virtual-air-monitor",
+    "description": "A virtual air monitor that generates PM2.5 and PM10 µg/m3 values and publishes them to an MQTT topic.",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./monitor.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/chatch/virtual-air-monitor.git"
+    },
+    "keywords": [
+    "mqtt",
+    "air",
+    "pm2.5",
+    "pm10"
+  ],
+    "dependencies": {
+        "js-yaml": "~3.5.4",
+        "mqtt": "~1.7.3"
+    }
+}
