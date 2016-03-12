@@ -12,10 +12,6 @@ let mqtt = require('mqtt'),
 const CONFIG = yaml.load(fs.readFileSync('config.yml', 'utf8'));
 
 function mq(mqOpts) {
-    //    let mqOpts = {
-    //        host: config.mqtt.host,
-    //        port: config.mqtt.port
-    //    };
     let mqClient = mqtt.connect(mqOpts);
 
     mqClient.on('error', function (err) {
@@ -51,8 +47,9 @@ function readAndPublish(mqClient, dryRun) {
     let values = readValues();
     console.info(values);
     if (!dryRun) {
-        mqClient.publish('/air/1/pm2.5', values.pm2_5);
-        mqClient.publish('/air/1/pm10', values.pm10);
+        let topics = CONFIG.mqtt.topics;
+        mqClient.publish(topics.pm2_5, values.pm2_5);
+        mqClient.publish(topics.pm10, values.pm10);
     }
 }
 
