@@ -1,10 +1,14 @@
-monitor:
+airmonitor:
   pm2_5_min: 20
   pm2_5_max: 200
   pm10_min: 40
   pm10_max: 400
   float_precision: 2
+  
+publisher:
   send_interval: 30000
+  # log values but don't publish if true
+  dryrun: false   
 
 mqtt:
   broker:
@@ -13,6 +17,3 @@ mqtt:
   topics:
     pm2_5: /air/1/pm2.5
     pm10: /air/1/pm10
-
-# log values but don't publish if true
-dryrun: false   

@@ -9,7 +9,10 @@ let mqtt = require('mqtt'),
     fs = require('fs'),
     yaml = require('js-yaml');
 
-const CONFIG = yaml.load(fs.readFileSync('config.yml', 'utf8'));
+let pmValues = require('./lib/airmonitor.js').pmValues;
+
+const CONFIG = yaml.load(fs.readFileSync('./config/config.yml', 'utf8')),
+    DRYRUN = CONFIG.publisher.dryrun;
 
 function mq(mqOpts) {
     let mqClient = mqtt.connect(mqOpts);
@@ -24,27 +27,8 @@ function mq(mqOpts) {
     return mqClient;
 }
 
-function pm2_5() {
-    return randInRange(CONFIG.monitor.pm2_5_min, CONFIG.monitor.pm2_5_max);
-}
-
-function pm10() {
-    return randInRange(CONFIG.monitor.pm10_min, CONFIG.monitor.pm10_max);
-}
-
-function randInRange(min, max) {
-    return ((Math.random() * (max - min)) + min).toFixed(CONFIG.monitor.float_precision);
-}
-
-function readValues() {
-    return {
-        pm2_5: pm2_5(),
-        pm10: pm10()
-    };
-}
-
 function readAndPublish(mqClient, dryRun) {
-    let values = readValues();
+    let values = pmValues();
     console.info(values);
     if (!dryRun) {
         let topics = CONFIG.mqtt.topics;
@@ -54,10 +38,10 @@ function readAndPublish(mqClient, dryRun) {
 }
 
 let mqClient;
-if (!CONFIG.dryrun)
+if (!DRYRUN)
     mqClient = mq(CONFIG.mqtt);
 
-readAndPublish(mqClient, CONFIG.dryrun);
+readAndPublish(mqClient, DRYRUN);
 setInterval(function () {
-    readAndPublish(mqClient, CONFIG.dryrun);
-}, CONFIG.monitor.send_interval);
+    readAndPublish(mqClient, DRYRUN);
+}, CONFIG.publisher.send_interval);
