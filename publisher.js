@@ -22,7 +22,7 @@ function mq(mqOpts) {
     });
 
     mqClient.on('connect', function () {
-        console.log('Connected to broker');
+        console.log('Connected to broker ' + mqOpts.host);
     });
     return mqClient;
 }
@@ -39,7 +39,7 @@ function readAndPublish(mqClient, dryRun) {
 
 let mqClient;
 if (!DRYRUN)
-    mqClient = mq(CONFIG.mqtt);
+    mqClient = mq(CONFIG.mqtt.broker);
 
 readAndPublish(mqClient, DRYRUN);
 setInterval(function () {
