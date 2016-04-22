@@ -1,8 +1,8 @@
 airmonitor:
-  pm2_5_min: 20
-  pm2_5_max: 200
-  pm10_min: 40
-  pm10_max: 400
+  pm2_5_min: 30
+  pm2_5_max: 120
+  pm10_min: 50
+  pm10_max: 170
   float_precision: 2
   
 publisher:
@@ -15,5 +15,4 @@ mqtt:
     host: 172.17.0.2
     port: 1883
   topics:
-    pm2_5: /air/1/pm2.5
-    pm10: /air/1/pm10
+    pm: /air/1/pm/csv

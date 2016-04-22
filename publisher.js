@@ -31,9 +31,9 @@ function readAndPublish(mqClient, dryRun) {
     let values = pmValues();
     console.info(values);
     if (!dryRun) {
-        let topics = CONFIG.mqtt.topics;
-        mqClient.publish(topics.pm2_5, values.pm2_5);
-        mqClient.publish(topics.pm10, values.pm10);
+        let topic = CONFIG.mqtt.topics.pm;
+        let csvStr = values.pm2_5 + ',' + values.pm10;
+        mqClient.publish(topic, csvStr);
     }
 }
 
